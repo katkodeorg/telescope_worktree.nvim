@@ -1,0 +1,1 @@
+# telescope_worktree.nvim
