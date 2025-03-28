@@ -43,14 +43,26 @@ M.create_worktree = function(opts)
           actions.close(prompt_bufnr)
 
           if branch then
-            -- Get list of remotes
-            local remotes = vim.fn.systemlist("git remote")
-            local remote_pattern = "^(" .. table.concat(remotes, "|") .. ")/(.+)$"
+            function parse_branch_name(bn)
+              -- Get the list of remotes from git
+              local remotes = vim.fn.systemlist("git remote")
 
-            local remote, branch_name = branch:match(remote_pattern)
-            if not branch_name then
-              branch_name = branch -- No remote, it's a local branch
+              -- Loop through all remotes and check if the branch name starts with any remote
+              for _, remote in ipairs(remotes) do
+                local remote_prefix = remote .. "/"
+
+                -- Check if branch name starts with the remote prefix (e.g., "origin/" or "feature/")
+                if bn:sub(1, #remote_prefix) == remote_prefix then
+                  -- If it matches, remove the prefix and return the branch name
+                  return bn:sub(#remote_prefix + 1)
+                end
+              end
+
+              -- Return the branch name as is if no valid remote prefix is found
+              return bn
             end
+
+            local branch_name = parse_branch_name(branch)
 
             -- Get the repo name
             local repo_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
