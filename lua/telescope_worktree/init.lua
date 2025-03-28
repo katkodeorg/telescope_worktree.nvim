@@ -68,7 +68,7 @@ M.create_worktree = function(opts)
 
             if path ~= "" then
               local function branch_exists_remotely(b)
-                local cmd = { "git", "show-ref", "refs/remotes/origin/" .. b }
+                local cmd = { "git", "show-ref", "refs/remotes/" .. b }
                 local result = vim.system(cmd):wait()
                 return result.code == 0
               end
@@ -79,6 +79,8 @@ M.create_worktree = function(opts)
               else
                 command = { "git", "worktree", "add", "-b", branch_name, path }
               end
+
+              vim.notify("Creating worktree using: " .. table.concat(command, " "))
               local cwd = vim.fn.getcwd()
 
               vim.system(command, { cwd = cwd }, function(obj)
