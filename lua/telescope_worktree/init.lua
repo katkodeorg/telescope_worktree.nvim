@@ -75,7 +75,7 @@ M.create_worktree = function(opts)
 
               local command
               if branch_exists_remotely(branch) then
-                command = { "git", "worktree", "add", "--track", "-b", branch_name, path, branch }
+                command = { "git", "worktree", "add", "--track", "-b", branch_name, path, "refs/remotes/" .. branch }
               else
                 command = { "git", "worktree", "add", "-b", branch_name, path }
               end
