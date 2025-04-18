@@ -15,7 +15,7 @@ Command used for existing remote branch
 git worktree add --track -b <branch> <path> refs/remotes/<remote>/<branch>
 ```
 
-Command used for new branch based on current branch in local (you can set the remote you want to push to manually while pushing)
+Command used for new branch based on current branch in local (you can manually set the remote while pushing)
 ```bash
 git worktree add -b <branch> <path>
 ```
