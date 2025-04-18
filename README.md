@@ -9,8 +9,15 @@ The [telescope_worktree.nvim](https://github.com/katkodeorg/telescope_worktree.n
 
 
 The extension uses this command to create a [git-worktree](https://git-scm.com/docs/git-worktree) from the remote branch
+
+Command used for existing remote branch
 ```bash
-git worktree add --track -b <branch> <path> <remote>/<branch>
+git worktree add --track -b <branch> <path> refs/remotes/<remote>/<branch>
+```
+
+Command used for new branch based on current branch in local (you can set the remote you want to push to manually while pushing)
+```bash
+git worktree add -b <branch> <path>
 ```
 
 ## Installation 
@@ -60,3 +67,6 @@ vim.keymap.set('n', '<leader>wt', function()
 end, { desc = '[W]ork tree [C]reate' })
 ```
 
+Open telescope to choose from the existing remote branches. If none with the given name exist, it will attempt to create a new local branch from the name provided.
+
+If you try to create a git worktree for an already checked out branch in your local, it will fail. To checkout the branch in a new worktree, save your changes and delete the local branch.
